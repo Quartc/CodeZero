@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="/profile/{{ post.user_id }}" class="text-decoration-none d-flex align-items-center gap-2">
+                            {% if post.user_avatar and post.user_avatar != 'default.jpg' %}
+                                <img src="{{ url_for('static', filename='uploads/avatars/' + post.user_avatar) }}"
+                                     class="avatar" style="width: 30px; height: 30px;">
+                            {% else %}
+                                <div class="avatar" style="width: 30px; height: 30px; background: #007bff; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-size: 14px;">
+                                    {{ post.user_name[0].upper() }}
+                                </div>
+                            {% endif %}
+                            <strong>{{ post.user_name }}</strong>
+                        </a>
+                    </div>
+                    <small class="text-muted">{{ post.created_date.strftime('%d.%m.%Y %H:%M') }}</small>
+                </div>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{ post.title }}</h4>
+                <p class="card-text">{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ url_for('static', filename='uploads/post_images/' + post.image) }}"
+                         class="post-image" style="max-width: 100%; border-radius: 10px;">
+                {% endif %}
+            </div>
+            <div class="card-footer bg-white">
+                <div class="d-flex gap-2">
+                    <a href="/like/{{ post.id }}" class="btn btn-sm btn-outline-danger">
+                        ❤️ {{ post.likes_count }}
+                    </a>
+                    <a href="/messages" class="btn btn-sm btn-outline-primary">
+                        💬 Написать автору
+                    </a>
+                    {% if current_user.is_authenticated and current_user.id == post.user_id %}
+                        <a href="/delete_post/{{ post.id }}" class="btn btn-sm btn-outline-danger ms-auto"
+                           onclick="return confirm('Удалить пост?')">
+                            🗑 Удалить
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <h4>Комментарии ({{ post.comments_count }})</h4>
+        {% if current_user.is_authenticated %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form action="/add_comment/{{ post.id }}" method="post">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-2">
+                            {{ form.text(class="form-control", rows=3, placeholder="Напишите комментарий...") }}
+                        </div>
+                        {{ form.submit(class="btn btn-primary btn-sm") }}
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="card mb-2">
+                    <div class="card-body py-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center gap-2">
+                                {% if comment.user_avatar and comment.user_avatar != 'default.jpg' %}
+                                    <img src="{{ url_for('static', filename='uploads/avatars/' + comment.user_avatar) }}"
+                                         class="avatar" style="width: 25px; height: 25px;">
+                                {% else %}
+                                    <div class="avatar" style="width: 25px; height: 25px; background: #6c757d; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-size: 12px;">
+                                        {{ comment.user_name[0].upper() }}
+                                    </div>
+                                {% endif %}
+                                <strong>{{ comment.user_name }}</strong>
+                            </div>
+                            <small class="text-muted">{{ comment.created_date.strftime('%d.%m.%Y %H:%M') }}</small>
+                        </div>
+                        <p class="mb-0 mt-1">{{ comment.text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted text-center">Пока нет комментариев. Будь первым!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

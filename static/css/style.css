@@ -1,0 +1,67 @@
+body {
+    background: #a4c2e0;
+}
+
+.post-card {
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+}
+
+.post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+    margin-top: 50px;
+    text-align: center;
+    padding: 20px;
+    background: #e9ecef;
+    border-radius: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-lg {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.chat-message {
+    margin-bottom: 15px;
+}
+
+.chat-message-own {
+    text-align: right;
+}
+
+.chat-bubble {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 70%;
+}
+
+.chat-bubble-own {
+    background: #007bff;
+    color: white;
+}
+
+.chat-bubble-other {
+    background: #e9ecef;
+    color: black;
+}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                💬 Чат с {{ companion.name }}
+                <a href="/messages" class="btn btn-sm btn-light float-end">Назад</a>
+            </div>
+            <div class="card-body" style="height: 450px; overflow-y: scroll;">
+                {% if messages %}
+                    {% for msg in messages %}
+                        <div class="mb-3 {% if msg.sender_id == current_user.id %}text-end{% endif %}">
+                            <div>
+                                <small class="text-muted">
+                                    {% if msg.sender_id == current_user.id %}Вы{% else %}{{ companion.name }}{% endif %}
+                                    • {{ msg.created_date.strftime('%H:%M') }}
+                                </small>
+                            </div>
+                            <div class="d-inline-block p-2 rounded {% if msg.sender_id == current_user.id %}bg-primary text-white{% else %}bg-light{% endif %}" style="max-width: 70%;">
+                                {{ msg.text }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center">Сообщений пока нет. Напиши первым!</p>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <form action="" method="post">
+                    <div class="input-group">
+                        <input type="text" name="text" class="form-control" placeholder="Ваше сообщение..." required>
+                        <button class="btn btn-primary" type="submit">Отправить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

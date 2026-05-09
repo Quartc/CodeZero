@@ -1,0 +1,7 @@
+Flask
+Flask-WTF
+SQLAlchemy
+Flask-Login
+SQLAlchemy-serializer
+requests
+Pillow

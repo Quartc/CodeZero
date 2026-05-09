@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h1 class="mb-4 text-center">🔥 Лента постов</h1>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="card post-card shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="/profile/{{ post.user_id }}" class="text-decoration-none d-flex align-items-center gap-2">
+                                    {% if post.user_avatar and post.user_avatar != 'default.jpg' %}
+                                        <img src="{{ url_for('static', filename='uploads/avatars/' + post.user_avatar) }}"
+                                             class="avatar" style="width: 30px; height: 30px;">
+                                    {% else %}
+                                        <div class="avatar" style="width: 30px; height: 30px; background: #007bff; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-size: 14px;">
+                                            {{ post.user_name[0].upper() }}
+                                        </div>
+                                    {% endif %}
+                                    <strong>{{ post.user_name }}</strong>
+                                </a>
+                            </div>
+                            <small class="text-muted">{{ post.created_date.strftime('%d.%m.%Y %H:%M') }}</small>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
+                        {% if post.image %}
+                            <img src="{{ url_for('static', filename='uploads/post_images/' + post.image) }}"
+                                 class="post-image" style="max-width: 100%; max-height: 200px; border-radius: 10px;">
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="/like/{{ post.id }}" class="btn btn-sm btn-outline-danger">
+                                    ❤️ {{ post.likes_count }}
+                                </a>
+                                <a href="/post/{{ post.id }}" class="btn btn-sm btn-outline-secondary">
+                                    💬 {{ post.comments_count }}
+                                </a>
+                            </div>
+                            {% if current_user.is_authenticated and current_user.id == post.user_id %}
+                                <a href="/delete_post/{{ post.id }}" class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Удалить пост?')">
+                                    🗑 Удалить
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info text-center">Пока нет постов. Напиши первый!</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

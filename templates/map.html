@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>🗺 Пользователи на карте</h2>
+        <p class="text-muted">Пользователи отмечают свой город при регистрации. Красная метка — вы.</p>
+        <div class="text-center">
+            <img src="{{ map_url }}" class="img-fluid rounded shadow" alt="Карта пользователей">
+        </div>
+        <div class="mt-4">
+            <h4>Участники:</h4>
+            <div class="row">
+                {% for user in users %}
+                    <div class="col-md-6">
+                        <div class="card mb-2">
+                            <div class="card-body py-2">
+                                <a href="/profile/{{ user.id }}" class="text-decoration-none">
+                                    <strong>{{ user.name }}</strong>
+                                </a>
+                                <span class="text-muted">— {{ user.city }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

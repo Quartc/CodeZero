@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h3>💌 Ваши диалоги</h3>
+        {% if dialogs %}
+            <div class="list-group">
+                {% for dialog in dialogs %}
+                    <a href="/chat/{{ dialog.id }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ dialog.name }}</strong>
+                                {% if dialog.about %}
+                                    <br><small class="text-muted">{{ dialog.about[:40] }}</small>
+                                {% endif %}
+                            </div>
+                            {% if dialog.unread > 0 %}
+                                <span class="badge bg-danger rounded-pill">{{ dialog.unread }}</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <h4 class="mt-4">👥 Все пользователи</h4>
+        <div class="list-group">
+            {% for user in all_users %}
+                <a href="/chat/{{ user.id }}" class="list-group-item list-group-item-action">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ user.name }}</strong>
+                            {% if user.about %}
+                                <br><small class="text-muted">{{ user.about[:50] }}</small>
+                            {% endif %}
+                        </div>
+                        <span class="badge bg-secondary">Написать</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

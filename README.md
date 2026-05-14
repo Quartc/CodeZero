@@ -1,5 +1,9 @@
 # YaLyceumGram - Социальная сеть для студентов
 
+###
+Посмотреть готовый вариант - https://code-zero--Reallystarfall.replit.app 
+
+
 ## Автор проекта
 Назаров Никита 
 
